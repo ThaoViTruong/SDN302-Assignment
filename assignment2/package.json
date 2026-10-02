@@ -1,0 +1,28 @@
+{
+  "name": "assignment1",
+  "version": "1.0.0",
+  "description": "Simple Quiz REST API",
+  "main": "bin/www",
+  "scripts": {
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "axios": "^1.20.0",
+    "body-parser": "^2.3.0",
+    "dotenv": "^18.0.5",
+    "ejs": "^6.0.1",
+    "express": "^5.2.1",
+    "express-handlebars": "^9.0.1",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.18.0"
+  },
+  "devDependencies": {
+    "express-generator": "^4.16.1",
+    "nodemon": "^3.1.14"
+  }
+}

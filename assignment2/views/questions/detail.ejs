@@ -1,0 +1,29 @@
+<%- include("../partials/header") %>
+
+<h1 class="page-title"><%= question.text %></h1>
+
+<div class="simple-box">
+    <% question.options.forEach((option, index) => { %>
+        <%= option %><%= Number(question.correctAnswerIndex) === index ? " (Correct)" : "" %><%= index < question.options.length - 1 ? ", " : "" %>
+    <% }) %>
+</div>
+
+<div class="d-flex gap-2 flex-wrap">
+    <a href="/questions/<%= question._id %>/edit" class="btn btn-warning">Edit Question</a>
+    <a href="/questions" class="btn btn-outline-secondary">Back</a>
+</div>
+
+<% if (relatedQuizzes.length) { %>
+    <section class="simple-section">
+        <h2 class="h4 mb-3">Related Quizzes</h2>
+        <div class="simple-list">
+            <% relatedQuizzes.forEach(quiz => { %>
+                <div class="simple-list-item">
+                    <a href="/quizzes/<%= quiz._id %>" class="simple-list-link"><%= quiz.title %></a>
+                </div>
+            <% }) %>
+        </div>
+    </section>
+<% } %>
+
+<%- include("../partials/footer") %>

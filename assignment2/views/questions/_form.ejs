@@ -1,0 +1,49 @@
+<h1 class="page-title"><%= formTitle %></h1>
+
+<% if (errorMessage) { %>
+    <div class="alert alert-danger"><%= errorMessage %></div>
+<% } %>
+
+<form action="<%= formAction %>" method="POST">
+    <div class="mb-3">
+        <label for="text" class="form-label">Question Text:</label>
+        <input
+            id="text"
+            name="text"
+            type="text"
+            class="form-control"
+            value="<%= question.text || '' %>"
+            required
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="options" class="form-label">Options (comma separated):</label>
+        <input
+            id="options"
+            name="options"
+            type="text"
+            class="form-control"
+            value="<%= question.optionsText || '' %>"
+            required
+        >
+    </div>
+
+    <div class="mb-4">
+        <label for="correctAnswerIndex" class="form-label">Correct Answer Index:</label>
+        <input
+            id="correctAnswerIndex"
+            type="number"
+            name="correctAnswerIndex"
+            class="form-control"
+            min="0"
+            value="<%= question.correctAnswerIndex ?? 0 %>"
+            required
+        >
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary"><%= submitLabel %></button>
+        <a href="/questions" class="btn btn-outline-secondary">Back</a>
+    </div>
+</form>

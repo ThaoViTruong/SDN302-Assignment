@@ -5,7 +5,11 @@ const Question = require("../models/Question");
 // GET /quizzes
 const getQuizzes = async (req, res) => {
     try {
-        const quizzes = await Quiz.find().populate("questions");
+        const quizzes = await Quiz.find()
+            .populate("questions")
+            .sort({
+                createdAt: -1
+            });
 
         res.json(quizzes);
     } catch (error) {
@@ -19,7 +23,7 @@ const getQuizzes = async (req, res) => {
 // GET /quizzes/:quizId
 const getQuizById = async (req, res) => {
     try {
-        const quiz = await Quiz.findById(req.params.quizId);
+        const quiz = await Quiz.findById(req.params.quizId).populate("questions");
 
         if (!quiz) {
             return res.status(404).json({

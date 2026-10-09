@@ -1,0 +1,64 @@
+<%- include("../partials/header") %>
+
+<h1 class="page-title"><%= quiz.title %></h1>
+
+<p class="mb-5"><%= quiz.description %></p>
+
+<% if (errorMessage) { %>
+    <div class="alert alert-danger"><%= errorMessage %></div>
+<% } %>
+
+<h2 class="h1 mb-3">Questions</h2>
+
+<% if (quiz.questions.length) { %>
+    <div class="simple-list mb-4">
+        <% quiz.questions.forEach(question => { %>
+            <div class="simple-list-item">
+                <a href="/questions/<%= question._id %>" class="simple-list-link"><%= question.text %></a>
+                <form
+                    action="/quizzes/<%= quiz._id %>/questions/<%= question._id %>/remove"
+                    method="POST"
+                    class="confirm-form"
+                    data-confirm-message="Remove this question from quiz?"
+                >
+                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                </form>
+            </div>
+        <% }) %>
+    </div>
+<% } else { %>
+    <div class="simple-box">No questions</div>
+<% } %>
+
+<div class="d-flex gap-2 flex-wrap mb-4">
+    <a href="/quizzes/<%= quiz._id %>/edit" class="btn btn-warning">Edit Quiz</a>
+    <a href="/quizzes" class="btn btn-outline-secondary">Back</a>
+</div>
+
+<section class="simple-section">
+    <h2 class="h4 mb-3">Add Existing Questions</h2>
+    <form action="/quizzes/<%= quiz._id %>/link-questions" method="POST">
+        <div class="mb-3">
+            <% if (availableQuestions.length) { %>
+                <div class="question-picker">
+                    <% availableQuestions.forEach(question => { %>
+                        <label class="question-picker-item">
+                            <input
+                                type="checkbox"
+                                name="selectedQuestionIds"
+                                value="<%= question._id %>"
+                                class="form-check-input mt-1"
+                            >
+                            <span><%= question.text %></span>
+                        </label>
+                    <% }) %>
+                </div>
+            <% } else { %>
+                <div class="simple-box">No available questions</div>
+            <% } %>
+        </div>
+        <button type="submit" class="btn btn-primary" <%= !availableQuestions.length ? "disabled" : "" %>>Add Existing Questions</button>
+    </form>
+</section>
+
+<%- include("../partials/footer") %>

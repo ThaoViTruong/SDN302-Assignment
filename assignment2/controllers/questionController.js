@@ -1,9 +1,12 @@
 const Question = require("../models/Question");
+const Quiz = require("../models/Quiz");
 
 // GET /question
 const getQuestions = async (req, res) => {
     try {
-        const questions = await Question.find();
+        const questions = await Question.find().sort({
+            createdAt: -1
+        });
 
         res.json(questions);
     } catch (error) {
@@ -51,20 +54,20 @@ const createQuestion = async (req, res) => {
 // PUT /question/:questionId
 const updateQuestion = async (req, res) => {
     try {
-        const question = await Question.findByIdAndUpdate(
-            req.params.questionId,
-            req.body,
-            {
-                new: true,
-                runValidators: true
-            }
-        );
+        const question = await Question.findById(req.params.questionId);
 
         if (!question) {
             return res.status(404).json({
                 message: "Question not found"
             });
         }
+
+        question.text = req.body.text;
+        question.options = req.body.options;
+        question.keywords = req.body.keywords;
+        question.correctAnswerIndex = req.body.correctAnswerIndex;
+
+        await question.save();
 
         res.json(question);
     } catch (error) {
@@ -87,6 +90,17 @@ const deleteQuestion = async (req, res) => {
                 message: "Question not found"
             });
         }
+
+        await Quiz.updateMany(
+            {
+                questions: req.params.questionId
+            },
+            {
+                $pull: {
+                    questions: req.params.questionId
+                }
+            }
+        );
 
         res.json({
             message: "Question deleted successfully"

@@ -1,23 +1,23 @@
 <%- include("../partials/header") %>
 
-<h1 class="page-title">Quizzes</h1>
+<h1 class="page-title">Questions</h1>
 
 <div class="mb-4">
-    <a href="/quizzes/create" class="btn btn-primary">Create New Quiz</a>
+    <a href="/questions/create" class="btn btn-primary">Create New Question</a>
 </div>
 
-<% if (quizzes.length) { %>
+<% if (questions.length) { %>
     <div class="simple-list">
-        <% quizzes.forEach(quiz => { %>
+        <% questions.forEach(question => { %>
             <div class="simple-list-item">
-                <a href="/quizzes/<%= quiz._id %>" class="simple-list-link">
-                    <%= quiz.title %>
+                <a href="/questions/<%= question._id %>" class="simple-list-link">
+                    <%= question.text %>
                 </a>
                 <form
-                    action="/quizzes/<%= quiz._id %>?_method=DELETE"
+                    action="/questions/<%= question._id %>?_method=DELETE"
                     method="POST"
                     class="confirm-form"
-                    data-confirm-message="Delete this quiz and its questions?"
+                    data-confirm-message="Delete this question?"
                 >
                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                 </form>

@@ -1,0 +1,99 @@
+<h1 class="page-title"><%= formTitle %></h1>
+<% const quizNewQuestion = typeof newQuestion !== "undefined" ? newQuestion : {}; %>
+
+<% if (errorMessage) { %>
+    <div class="alert alert-danger"><%= errorMessage %></div>
+<% } %>
+
+<form action="<%= formAction %>" method="POST">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title:</label>
+        <input
+            id="title"
+            type="text"
+            name="title"
+            class="form-control"
+            value="<%= quiz.title || '' %>"
+            required
+        >
+    </div>
+
+    <div class="mb-3">
+        <label for="description" class="form-label">Description:</label>
+        <input
+            id="description"
+            name="description"
+            type="text"
+            class="form-control"
+            value="<%= quiz.description || '' %>"
+            required
+        >
+    </div>
+
+    <div class="simple-section">
+        <h2 class="h4 mb-3">Existing Questions</h2>
+        <% if (allQuestions.length) { %>
+            <div class="mb-4">
+                <div class="question-picker">
+                    <% allQuestions.forEach(question => { %>
+                        <label class="question-picker-item">
+                            <input
+                                type="checkbox"
+                                name="selectedQuestionIds"
+                                value="<%= question._id %>"
+                                class="form-check-input mt-1"
+                                <%= (quiz.selectedQuestionIds || []).includes(question._id) ? "checked" : "" %>
+                            >
+                            <span><%= question.text %></span>
+                        </label>
+                    <% }) %>
+                </div>
+            </div>
+        <% } else { %>
+            <div class="simple-box">No available questions</div>
+        <% } %>
+    </div>
+
+    <div class="simple-section">
+        <h2 class="h4 mb-3">New Question</h2>
+
+        <div class="mb-3">
+            <label for="newQuestionText" class="form-label">Question Text:</label>
+            <input
+                id="newQuestionText"
+                name="newQuestionText"
+                type="text"
+                class="form-control"
+                value="<%= quizNewQuestion.text || '' %>"
+            >
+        </div>
+
+        <div class="mb-3">
+            <label for="newQuestionOptions" class="form-label">Options (comma separated):</label>
+            <input
+                id="newQuestionOptions"
+                name="newQuestionOptions"
+                type="text"
+                class="form-control"
+                value="<%= quizNewQuestion.optionsText || '' %>"
+            >
+        </div>
+
+        <div class="mb-4">
+            <label for="newQuestionCorrectAnswerIndex" class="form-label">Correct Answer Index:</label>
+            <input
+                id="newQuestionCorrectAnswerIndex"
+                type="number"
+                name="newQuestionCorrectAnswerIndex"
+                class="form-control"
+                min="0"
+                value="<%= quizNewQuestion.correctAnswerIndex ?? 0 %>"
+            >
+        </div>
+    </div>
+
+    <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary"><%= submitLabel %></button>
+        <a href="/quizzes" class="btn btn-outline-secondary">Back</a>
+    </div>
+</form>
